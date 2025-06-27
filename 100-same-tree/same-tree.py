@@ -1,6 +1,6 @@
 class Solution(object):
     def isSameTree(self, p, q):
-        if not p and not q:
+        if not p and not q is not None:
             return True
         
         if not p or not q or p.val != q.val:
