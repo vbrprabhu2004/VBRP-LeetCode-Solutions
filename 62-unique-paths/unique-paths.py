@@ -1,10 +1,6 @@
 class Solution(object):
     def uniquePaths(self, m, n):
-        """
-        :type m: int
-        :type n: int
-        :rtype: int
-        """
+        
         # Create a 2D DP table to store the number of unique paths
         # dp[i][j] will store the number of unique paths to reach cell (i, j)
         dp = [[0 for _ in xrange(n)] for _ in xrange(m)]
