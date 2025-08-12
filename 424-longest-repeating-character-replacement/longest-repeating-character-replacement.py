@@ -4,6 +4,7 @@ class Solution(object):
         max_count = 0
         count = {}
         res = 0
+        
         for right in range(len(s)):
             count[s[right]] = count.get(s[right], 0) + 1
             max_count = max(max_count, count[s[right]])
