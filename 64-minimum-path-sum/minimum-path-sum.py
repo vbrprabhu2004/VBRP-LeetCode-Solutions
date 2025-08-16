@@ -1,9 +1,5 @@
 class Solution(object):
     def minPathSum(self, grid):
-        """
-        :type grid: List[List[int]]
-        :rtype: int
-        """
         if not grid or not grid[0]:
             return 0
 
@@ -27,9 +23,3 @@ class Solution(object):
         
         
         return matrix[rows-1][cols-1]
-        '''
-        for j in range(1, cols):
-            matrix[0][j] = matrix[0][j-1] + grid[0][j]
-        for i in range(1, rows):
-            matrix[i][0] = matrix[i-1][0] + grid[i][0]
-        '''
