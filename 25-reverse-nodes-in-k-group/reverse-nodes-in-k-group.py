@@ -1,34 +1,35 @@
 class Solution(object):
     def reverseKGroup(self, head, k):
-
-        # Helper to get k-th node from current node
-        def get_kth(curr, k):
-            while curr and k > 0:
-                curr = curr.next
-                k -= 1
-            return curr
+        # Helper function to reverse nodes between start and end
+        def reverse(start, end):
+            prev = end
+            curr = start
+            while curr != end:
+                nxt = curr.next
+                curr.next = prev
+                prev = curr
+                curr = nxt
+            return prev
 
         dummy = ListNode(0)
         dummy.next = head
         group_prev = dummy
 
         while True:
-            kth = get_kth(group_prev, k)
-            if not kth:
-                break
+            # Step 1: Find kth node
+            kth = group_prev
+            for i in range(k):
+                kth = kth.next
+                if not kth:   # if fewer than k nodes left → stop
+                    return dummy.next
+
+            # Step 2: Define group boundaries
             group_next = kth.next
+            start = group_prev.next
 
-            # Reverse the group
-            prev = group_next
-            curr = group_prev.next
-            while curr != group_next:
-                tmp = curr.next
-                curr.next = prev
-                prev = curr
-                curr = tmp
+            # Step 3: Reverse the k nodes
+            new_head = reverse(start, group_next)
 
-            tmp = group_prev.next
-            group_prev.next = kth
-            group_prev = tmp
-
-        return dummy.next
+            # Step 4: Connect reversed group back to list
+            group_prev.next = new_head
+            group_prev = start
