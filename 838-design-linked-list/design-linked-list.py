@@ -1,3 +1,4 @@
+# Doubly Linked List
 class Node(object):
     def __init__(self, val=0):
         self.val = val
@@ -5,20 +6,16 @@ class Node(object):
         self.next = None
 
 class MyLinkedList(object):
-
     def __init__(self):
-        # Sentinel nodes for easy handling of head/tail
-        self.head = Node(0)  
+        self.head = Node(0)
         self.tail = Node(0)
         self.head.next = self.tail
         self.tail.prev = self.head
-        self.size = 0  # track length
+        self.size = 0
 
     def get(self, index):
         if index < 0 or index >= self.size:
             return -1
-
-        # Choose direction: from head or tail (optimization)
         if index < self.size // 2:
             curr = self.head.next
             for _ in range(index):
@@ -27,7 +24,6 @@ class MyLinkedList(object):
             curr = self.tail.prev
             for _ in range(self.size - index - 1):
                 curr = curr.prev
-
         return curr.val
 
     def addAtHead(self, val):
@@ -42,7 +38,6 @@ class MyLinkedList(object):
         if index == self.size:
             self.addAtTail(val)
         else:
-            # get node at position index
             node = self._getNode(index)
             self._addNodeAfter(node.prev, Node(val))
 
@@ -51,8 +46,7 @@ class MyLinkedList(object):
             return
         node = self._getNode(index)
         self._deleteNode(node)
-
-    # Helper: add new node after prev
+    
     def _addNodeAfter(self, prev, node):
         nxt = prev.next
         prev.next = node
@@ -60,15 +54,13 @@ class MyLinkedList(object):
         node.next = nxt
         nxt.prev = node
         self.size += 1
-
-    # Helper: remove a node
+    
     def _deleteNode(self, node):
         prev, nxt = node.prev, node.next
         prev.next = nxt
         nxt.prev = prev
         self.size -= 1
 
-    # Helper: get node at index
     def _getNode(self, index):
         if index < self.size // 2:
             curr = self.head.next
