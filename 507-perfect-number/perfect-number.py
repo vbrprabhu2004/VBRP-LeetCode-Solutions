@@ -3,7 +3,7 @@ class Solution(object):
         if num <= 1:
             return False
         
-        sum1 = 1  # 1 is always a divisor
+        sum1 = 1 
         i = 2
         while i * i <= num:
             if num % i == 0:
