@@ -3,15 +3,13 @@ class Solution(object):
         self.max_diameter = 0
 
         def depth(node):
-            if node is None:
+            if not node:
                 return 0
-
             left = depth(node.left)
             right = depth(node.right)
-            
+            # update global max diameter
             self.max_diameter = max(self.max_diameter, left + right)
-
-            return max(left, right) + 1
+            return 1 + max(left, right)
 
         depth(root)
-        return self.max_diameter        
+        return self.max_diameter
