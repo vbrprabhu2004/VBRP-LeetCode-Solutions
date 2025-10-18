@@ -3,19 +3,14 @@ class Solution(object):
         if root is None:
             return 0
         else:
-            left_depth = self.maxDepth(root.left)
-            right_depth = self.maxDepth(root.right)
-            return max(left_depth, right_depth) + 1
+            return max(self.maxDepth(root.left), self.maxDepth(root.right)) + 1
 
     def isBalanced(self, root):
         def subtreeHeights(root1):
             if root1 is None:
                 return True  # An empty tree is balanced
 
-            left_height = self.maxDepth(root1.left)
-            right_height = self.maxDepth(root1.right)
-
-            diff = abs(left_height - right_height)
+            diff = abs(self.maxDepth(root1.left) - self.maxDepth(root1.right))
 
             if diff > 1:
                 return False
