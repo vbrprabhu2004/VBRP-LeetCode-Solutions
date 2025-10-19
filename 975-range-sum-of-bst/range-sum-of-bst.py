@@ -6,10 +6,8 @@ class Solution(object):
                 return
             inorder(self, root.left)
             #res.append(root.val)
+            inorder(self, root.right)
             if(root.val <= high and low <= root.val):
                 self.sum1 += root.val
-            # 1 3 5 6 7 10 13 15 18
-            # low = 6 high = 10
-            inorder(self, root.right)
         inorder(self, root)
         return self.sum1
