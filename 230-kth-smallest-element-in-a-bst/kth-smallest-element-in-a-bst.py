@@ -1,7 +1,6 @@
 class Solution(object):
     def kthSmallest(self, root, k):
         self.count = 0
-        #self.temp = root.val
         def inorder(self, root):
             if not root:
                 return 0
