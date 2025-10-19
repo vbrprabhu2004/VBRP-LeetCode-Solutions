@@ -1,29 +1,36 @@
 class Solution(object):
     def spiralOrder(self, matrix):
-        """
-        :type matrix: List[List[int]]
-        :rtype: List[int]
-        """
+        res = []
         if not matrix:
             return []
-        
-        res = []
-        while matrix:
-            # 1. Take the first row
-            res += matrix.pop(0)
-            
-            # 2. Take the last column
-            if matrix and matrix[0]:
-                for row in matrix:
-                    res.append(row.pop())
-            
-            # 3. Take the last row reversed
-            if matrix:
-                res += matrix.pop()[::-1]
-            
-            # 4. Take the first column reversed
-            if matrix and matrix[0]:
-                for row in matrix[::-1]:
-                    res.append(row.pop(0))
-        
+
+        top = 0
+        bottom = len(matrix) - 1
+        left = 0
+        right = len(matrix[0]) - 1
+
+        while left <= right and top <= bottom:
+
+            # Traverse from Left → Right
+            for i in range(left, right + 1):
+                res.append(matrix[top][i])
+            top += 1
+
+            # Traverse from Top → Bottom
+            for i in range(top, bottom + 1):
+                res.append(matrix[i][right])
+            right -= 1
+
+            # Traverse from Right → Left (only if there’s a row remaining)
+            if top <= bottom:
+                for i in range(right, left - 1, -1):
+                    res.append(matrix[bottom][i])
+                bottom -= 1
+
+            # Traverse from Bottom → Top (only if there’s a column remaining)
+            if left <= right:
+                for i in range(bottom, top - 1, -1):
+                    res.append(matrix[i][left])
+                left += 1
+
         return res
