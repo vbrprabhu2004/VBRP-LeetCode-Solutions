@@ -11,23 +11,23 @@ class Solution(object):
 
         while left <= right and top <= bottom:
 
-            # Traverse from Left → Right
+            # Left to Right
             for i in range(left, right + 1):
                 res.append(matrix[top][i])
             top += 1
 
-            # Traverse from Top → Bottom
+            # Top to Bottom
             for i in range(top, bottom + 1):
                 res.append(matrix[i][right])
             right -= 1
 
-            # Traverse from Right → Left (only if there’s a row remaining)
+            # Right to Left
             if top <= bottom:
                 for i in range(right, left - 1, -1):
                     res.append(matrix[bottom][i])
                 bottom -= 1
 
-            # Traverse from Bottom → Top (only if there’s a column remaining)
+            # Bottom to Top
             if left <= right:
                 for i in range(bottom, top - 1, -1):
                     res.append(matrix[i][left])
