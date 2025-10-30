@@ -1,33 +1,34 @@
+from collections import deque
+
 class Solution(object):
     def updateMatrix(self, mat):
-        """
-        :type mat: List[List[int]]
-        :rtype: List[List[int]]
-        """
         m = len(mat)
         n = len(mat[0])
-        INF = 99999
-
-        # Step 1: Create result matrix
-        res = [[INF for _ in range(n)] for _ in range(m)]
-
-        # Step 2: First pass → Top-Left to Bottom-Right
+        
+        # Initialize result matrix with large numbers
+        res = [[99999 for _ in range(n)] for _ in range(m)]
+        q = deque()
+        
+        # Step 1: Push all 0 cells into queue and set distance 0
         for i in range(m):
             for j in range(n):
                 if mat[i][j] == 0:
                     res[i][j] = 0
-                else:
-                    if i > 0:
-                        res[i][j] = min(res[i][j], res[i - 1][j] + 1)
-                    if j > 0:
-                        res[i][j] = min(res[i][j], res[i][j - 1] + 1)
-
-        # Step 3: Second pass → Bottom-Right to Top-Left
-        for i in range(m - 1, -1, -1):
-            for j in range(n - 1, -1, -1):
-                if i < m - 1:
-                    res[i][j] = min(res[i][j], res[i + 1][j] + 1)
-                if j < n - 1:
-                    res[i][j] = min(res[i][j], res[i][j + 1] + 1)
-
+                    q.append((i, j))
+        
+        # Directions → up, down, left, right
+        directions = [(1,0), (-1,0), (0,1), (0,-1)]
+        
+        # Step 2: BFS traversal
+        while q:
+            x, y = q.popleft()
+            for dx, dy in directions:
+                nx, ny = x + dx, y + dy
+                # Check bounds
+                if 0 <= nx < m and 0 <= ny < n:
+                    # If we found shorter distance
+                    if res[nx][ny] > res[x][y] + 1:
+                        res[nx][ny] = res[x][y] + 1
+                        q.append((nx, ny))
+        
         return res
