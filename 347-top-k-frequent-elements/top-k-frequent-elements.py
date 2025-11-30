@@ -1,21 +1,9 @@
-class Solution(object):
-    def topKFrequent(self, nums, k):
-        freq = {}
-        for i in nums:
-            if i in freq:
-                freq[i] += 1
-            else:
-                freq[i] = 1
-        
-        # Step 2: Sort items in the dictionary by frequency in descending order
-        sorted_items = sorted(freq.items(), key=lambda x: x[1], reverse=True)
-        # sorted_items = [(1, 3), (2, 2), (3, 1)]
+from collections import defaultdict
+class Solution:
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        freq = defaultdict(int)
+        for num in nums:
+            freq[num] += 1
 
-        # Step 3: Extract top k elements based on frequency
-        result = []
-        for i in range(k):
-            result.append(sorted_items[i][0])
-        # When i = 0 → result = [1]
-        # When i = 1 → result = [1, 2]
-
-        return result
+        sorted_keys = sorted(freq.keys(), key = lambda x : freq[x], reverse = True)
+        return sorted_keys[:k]  
