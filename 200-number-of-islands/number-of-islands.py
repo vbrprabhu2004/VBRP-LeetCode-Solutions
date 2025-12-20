@@ -1,31 +1,38 @@
+from collections import deque
+
 class Solution:
-    
+    def numIslands(self, grid):
+        rows = len(grid)
+        cols = len(grid[0])
+        queue = deque()
+        count = 0
 
-    def numIslands(self, grid: List[List[str]]) -> int:
-        n = len(grid) #rows
-        m = len(grid[0]) #cols
-        visited = [[False for i in range(m)] for j in range(n)]
-        cnt = 0
+        def bfs(queue):
+            while queue:
+                a, b = queue.popleft()
 
-        def dfs(grid, visited, n, m, i, j):
-            if i<0 or i>=n or j<0 or j>=m:
-                return
-            if grid[i][j] == "0":
-                return
-            if visited[i][j] == True:
-                return
-            
-            visited[i][j] = True
+                if b + 1 < cols and grid[a][b+1] == "1":
+                    grid[a][b+1] = "0"
+                    queue.append((a, b+1))
 
-            dfs(grid, visited, n, m , i+1, j)
-            dfs(grid, visited, n, m , i, j+1)
-            dfs(grid, visited, n, m , i-1, j)
-            dfs(grid, visited, n, m , i, j-1)
+                if a + 1 < rows and grid[a+1][b] == "1":
+                    grid[a+1][b] = "0"
+                    queue.append((a+1, b))
 
-        for i in range(n):
-            for j in range(m):
-                if grid[i][j] == "1" and visited[i][j] == False:
-                    dfs(grid, visited, n, m , i, j)
-                    cnt += 1
-        #print(visited)
-        return cnt
+                if b - 1 >= 0 and grid[a][b-1] == "1":
+                    grid[a][b-1] = "0"
+                    queue.append((a, b-1))
+
+                if a - 1 >= 0 and grid[a-1][b] == "1":
+                    grid[a-1][b] = "0"
+                    queue.append((a-1, b))
+
+        for i in range(rows):
+            for j in range(cols):
+                if grid[i][j] == "1":
+                    grid[i][j] = "0"      # mark visited
+                    queue.append((i, j))
+                    bfs(queue)
+                    count += 1
+
+        return count
