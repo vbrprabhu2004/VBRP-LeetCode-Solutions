@@ -1,32 +1,52 @@
 from collections import deque
-
-class Solution(object):
-    def orangesRotting(self, grid):
-
-        rows, cols = len(grid), len(grid[0])
+class Solution:
+    def orangesRotting(self, grid: List[List[int]]) -> int:
+        rows = len(grid)
+        cols = len(grid[0])
         queue = deque()
-        fresh = 0
-        
-        # Initialize the queue with all rotten oranges
-        for r in range(rows):
-            for c in range(cols):
-                if grid[r][c] == 2:
-                    queue.append((r, c, 0))  # (row, col, time)
-                elif grid[r][c] == 1:
-                    fresh += 1
-        
-        directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+        count = 0
         time = 0
-        
-        # BFS to rot adjacent fresh oranges
+
+        def bfs(queue, size, time):
+            while queue:
+                a, b = queue.popleft()
+                size -= 1
+                
+                if a + 1 <= rows - 1 and grid[a + 1][b] == 1:
+                    grid[a + 1][b] = 2
+                    queue.append((a + 1, b))
+
+                if a - 1 >= 0 and grid[a - 1][b] == 1:
+                    grid[a - 1][b] = 2
+                    queue.append((a - 1, b))
+
+                if b + 1 <= cols - 1 and grid[a][b + 1] == 1:
+                    grid[a][b + 1] = 2
+                    queue.append((a, b + 1))
+
+                if b - 1 >= 0 and grid[a][b - 1] == 1:
+                    grid[a][b - 1] = 2
+                    queue.append((a, b - 1))
+                
+                if size == 0:
+                    time += 1
+                    #print(time, queue)
+                    size += len(queue)
+
+            return time - 1
+
+        for i in range(rows):
+            for j in range(cols):
+                if grid[i][j] == 2:
+                    queue.append((i,j))
+
+        size = len(queue)
+        #print(size)
         while queue:
-            r, c, t = queue.popleft()
-            time = max(time, t)
-            for dr, dc in directions:
-                nr, nc = r + dr, c + dc
-                if 0 <= nr < rows and 0 <= nc < cols and grid[nr][nc] == 1:
-                    grid[nr][nc] = 2
-                    fresh -= 1
-                    queue.append((nr, nc, t + 1))
-        
-        return time if fresh == 0 else -1
+            time = bfs(queue, size, time)
+            
+        for i in range(rows):
+            for j in range(cols):
+                if grid[i][j] == 1: 
+                    return -1           
+        return time
