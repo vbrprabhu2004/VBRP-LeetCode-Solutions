@@ -11,7 +11,16 @@ class Solution:
                     m.append(i)
                     n.append(j)
 
+        """
         for i in range(rows):
             for j in range(cols):
                 if i in m or j in n:
                     matrix[i][j] = 0
+        """
+        for i in m:
+            for j in range(cols):
+                matrix[i][j] = 0
+        
+        for i in n:
+            for j in range(rows):
+                matrix[j][i] = 0
