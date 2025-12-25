@@ -1,6 +1,9 @@
-class Solution(object):
-    def singleNumber(self, nums):
-        result = 0
+class Solution:
+    def singleNumber(self, nums: List[int]) -> int:
+        seen = set()
         for num in nums:
-            result ^= num   # XOR accumulates
-        return result
+            if num in seen:
+                seen.remove(num)
+            else:
+                seen.add(num)
+        return list(seen)[0]
