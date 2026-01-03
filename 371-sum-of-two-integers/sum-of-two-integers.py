@@ -1,3 +1,4 @@
-class Solution:
-    def getSum(self, a: int, b: int) -> int:
-        return a + b
+class Solution(object):
+    def getSum(self, a, b):
+       return a + b
+        
